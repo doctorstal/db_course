@@ -190,6 +190,7 @@ class NTaskView(QFrame):
 class NExecutorView(QWidget):
 	proceededTask = pyqtSignal(int)
 	changeTaskExecClicked = pyqtSignal(int)
+
 	def __init__(self, u_id, u_name, u_tasks_amount):
 		super(NExecutorView, self).__init__()
 		self.u_id = u_id
@@ -217,10 +218,9 @@ class NExecutorView(QWidget):
 
 		new_app.commonTasks.tasksUpdated.connect(self.updateTasks)
 
-
 	def expandUserStatistics(self):
 		self.ui.tasksBox.setHidden(not self.ui.tasksBox.isHidden())
-		if(not self.tasksInited):
+		if (not self.tasksInited):
 			self.updateTasks()
 
 	def addTask(self, record):

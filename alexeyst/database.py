@@ -181,6 +181,11 @@ class ProductsDB(QObject):
 			return True
 
 	def getTable(self, table_name):
+		"""
+
+		:param table_name: string
+		:return: QSqlTableModel
+		"""
 		table = QSqlTableModel(None, self.db)
 		table.setTable(table_name)
 		table.select()

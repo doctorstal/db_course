@@ -32,15 +32,14 @@ CREATE OR REPLACE VIEW report_unplanned_contracts AS
     FROM contracts NATURAL JOIN processes
     NATURAL JOIN tasks);
 
-
 --		- Deadline violators
 CREATE OR REPLACE VIEW report_deadline_violators AS
   SELECT executor_name, task_name, completion_time
     FROM EXECUTORS
       NATURAL JOIN TASKS
       NATURAL JOIN
-    (SELECT task_id, NUMTODSINTERVAL(MAX(modified) - MIN(modified), 'DAY') AS completion_time
+    (SELECT task_id, (MAX(modified) - MIN(modified)) AS completion_time
         FROM timeline 
         WHERE new_status_id = 1 OR new_status_id = 2
-        GROUP BY task_id HAVING (MAX(modified) > MIN(modified) + INTERVAL '1' MINUTE));
+        GROUP BY task_id HAVING (MAX(modified) > MIN(modified) + INTERVAL '2' MINUTE));
       
