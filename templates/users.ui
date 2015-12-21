@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Executors</class>
+ <widget class="QMainWindow" name="Executors">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>702</width>
+    <height>670</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignRight">
+     <widget class="QPushButton" name="addNewUserButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Add new executor (Ctrl + E)</string>
+      </property>
+      <property name="statusTip">
+       <string>Add new executor(Ctrl + E)</string>
+      </property>
+      <property name="text">
+       <string>Add new executor</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../res/res.qrc">
+        <normaloff>:/icons/color/contacts.png</normaloff>:/icons/color/contacts.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Ctrl+P</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QScrollArea" name="executorsContainer">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>682</width>
+         <height>524</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

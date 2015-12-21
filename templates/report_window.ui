@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>672</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTextEdit" name="textEdit"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="saveButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>250</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Send by email (Ctrl + E)</string>
+        </property>
+        <property name="statusTip">
+         <string>Send by email (Ctrl + E)</string>
+        </property>
+        <property name="text">
+         <string>Save as html</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../res/res.qrc">
+          <normaloff>:/icons/color/browser.png</normaloff>:/icons/color/browser.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>45</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+E</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="printButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>250</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Print report (Ctrl + P)</string>
+        </property>
+        <property name="statusTip">
+         <string>Print report (Ctrl + P)</string>
+        </property>
+        <property name="text">
+         <string>Print report</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../res/res.qrc">
+          <normaloff>:/icons/color/news.png</normaloff>:/icons/color/news.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>45</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+P</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

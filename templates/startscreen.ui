@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>882</width>
+    <height>533</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>540</width>
+       <height>340</height>
+      </size>
+     </property>
+     <widget class="QPushButton" name="tasksButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>120</y>
+        <width>250</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Change tasks statuses and responsibles (Alt + T)</string>
+      </property>
+      <property name="statusTip">
+       <string>Change tasks statuses and responsibles (Alt + T)</string>
+      </property>
+      <property name="text">
+       <string>Tasks</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../res/res.qrc">
+        <normaloff>:/icons/color/crossroads.png</normaloff>:/icons/color/crossroads.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Alt+T</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="reportButton">
+      <property name="geometry">
+       <rect>
+        <x>15</x>
+        <y>225</y>
+        <width>505</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>505</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Is it Monday already? You should defenitely print this!</string>
+      </property>
+      <property name="statusTip">
+       <string>Is it Monday already? You should defenitely print this!</string>
+      </property>
+      <property name="text">
+       <string>Generate report</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../res/res.qrc">
+        <normaloff>:/icons/color/trends.png</normaloff>:/icons/color/trends.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Alt+G</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="processesButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>15</y>
+        <width>250</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Create business process (Alt+B)</string>
+      </property>
+      <property name="statusTip">
+       <string>Create business process (Alt + B)</string>
+      </property>
+      <property name="text">
+       <string>Business processes</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../res/res.qrc">
+        <normaloff>:/icons/color/merge.png</normaloff>:/icons/color/merge.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Alt+B</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="responsiblesButton">
+      <property name="geometry">
+       <rect>
+        <x>15</x>
+        <y>120</y>
+        <width>250</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Add/Remove task executors (Alt + R)</string>
+      </property>
+      <property name="statusTip">
+       <string>Add/Remove task executors</string>
+      </property>
+      <property name="text">
+       <string>Responsibles</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../res/res.qrc">
+        <normaloff>:/icons/color/contacts.png</normaloff>:/icons/color/contacts.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Alt+R</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="companiesButton">
+      <property name="geometry">
+       <rect>
+        <x>15</x>
+        <y>15</y>
+        <width>250</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>250</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Add/remove companies and contracts (Alt+C)</string>
+      </property>
+      <property name="statusTip">
+       <string>Add/remove companies and contracts (Alt+C)</string>
+      </property>
+      <property name="text">
+       <string>Companies/contracts</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../res/res.qrc">
+        <normaloff>:/icons/color/briefcase.png</normaloff>:/icons/color/briefcase.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="shortcut">
+       <string>Alt+C</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
