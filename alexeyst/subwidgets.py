@@ -187,17 +187,21 @@ class NTaskView(QFrame):
 		self.changeClicked.emit(self.t_id)
 
 
-class NUserView(QWidget):
+class NExecutorView(QWidget):
+	proceededTask = pyqtSignal(int)
+	changeTaskExecClicked = pyqtSignal(int)
 	def __init__(self, u_id, u_name, u_tasks_amount):
-		super(NUserView, self).__init__()
+		super(NExecutorView, self).__init__()
 		self.u_id = u_id
 		self.name = u_name
 		self.tasks_amount = u_tasks_amount
+		self.tasks = {}
+		self.tasksInited = False
 		self.initUi()
 		self.updateView(u_id, u_name, u_tasks_amount)
 
 	def updateView(self, u_id, u_name, u_tasks_amount):
-		self.tasks = {}
+
 		self.u_id = u_id
 		self.name = u_name
 		self.tasks_amount = u_tasks_amount
@@ -211,9 +215,12 @@ class NUserView(QWidget):
 		self.ui.tasksBox.setHidden(True)
 		self.ui.tasksBox.setLayout(QVBoxLayout())
 
+		new_app.commonTasks.tasksUpdated.connect(self.updateTasks)
+
+
 	def expandUserStatistics(self):
 		self.ui.tasksBox.setHidden(not self.ui.tasksBox.isHidden())
-		if not self.ui.tasksBox.isHidden():
+		if(not self.tasksInited):
 			self.updateTasks()
 
 	def addTask(self, record):
@@ -239,14 +246,24 @@ class NUserView(QWidget):
 			task.changeClicked.connect(self.changeTaskExecutor)
 
 	def updateTasks(self):
+		self.hideTasks()
 		query = new_app.mainAppWindow.db.getExecutorTasksQuery(self.u_id)
 		while (query.next()):
 			self.addTask(query.record())
+		self.tasks_amount = len(self.tasks)
+		self.updateView(self.u_id, self.name, self.tasks_amount)
+		self.tasksInited = True;
+
+	def hideTasks(self):
+		for t_id in self.tasks:
+			self.tasks[t_id].hide()
 
 	def procceedTaskStatus(self, t_id):
+		self.proceededTask.emit(t_id)
 		pass
 
 	def changeTaskExecutor(self, t_id):
+		self.changeTaskExecClicked.emit(t_id)
 		pass
 
 	pass

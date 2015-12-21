@@ -1,5 +1,6 @@
 import sys
 
+from PyQt4.QtCore import pyqtSignal, QObject
 from PyQt4.QtGui import QApplication, QMainWindow, QVBoxLayout, QWidget, QDialog, \
 	QMessageBox, QPrinter, QPrintDialog, QTextDocumentWriter, QFileDialog
 
@@ -15,13 +16,16 @@ import startscreen
 import tasks
 import users
 from database import ProductsDB
-from subwidgets import NCompanyView, NProcessView, NTaskView, NUserView
+from subwidgets import NCompanyView, NProcessView, NTaskView, NExecutorView
 
 
 def main():
 	app = QApplication(sys.argv)
 	global mainAppWindow
 	mainAppWindow = NewApp()
+
+	global commonTasks
+	commonTasks = NCommonTasks()
 
 	sys.exit(app.exec_())
 
@@ -135,8 +139,9 @@ class NProcessesWindow(QMainWindow):
 		self.widgetUi.addNewProcessButton.setDisabled(True)
 
 		self.initContainerWidget()
-		# if (not hasattr(mainAppWindow, 'currentContarctId')):
-		# 	self.noProcessSelected()
+
+	# if (not hasattr(mainAppWindow, 'currentContarctId')):
+	# 	self.noProcessSelected()
 
 	def initContainerWidget(self):
 		self.containerWidget.setLayout(QVBoxLayout())
@@ -238,8 +243,18 @@ class NExecutorsWindow(QMainWindow):
 			self.users[u_id].updateView(u_id, u_name, u_tasks_amount)
 			self.users[u_id].show()
 		except:
-			self.users[u_id] = NUserView(u_id, u_name, u_tasks_amount)
+			self.users[u_id] = NExecutorView(u_id, u_name, u_tasks_amount)
+			self.users[u_id].proceededTask.connect(self.proceedTask)
+			self.users[u_id].changeTaskExecClicked.connect(self.changeTaskExec)
 			self.container.layout().addWidget(self.users[u_id])
+
+	def proceedTask(self, t_id):
+		commonTasks.procceedTaskStatus(t_id)
+		pass
+
+	def changeTaskExec(self, t_id):
+		commonTasks.changeTaskExecutor(t_id, self)
+		pass
 
 
 	def createNewUser(self):
@@ -252,13 +267,12 @@ class NExecutorsWindow(QMainWindow):
 
 		dlg.exec_()
 
-		if(dlgUi.lineEdit.text()!='' and dlg.accepted):
-			if(mainAppWindow.db.createNewExecutor(dlgUi.lineEdit.text())):
+		if (dlgUi.lineEdit.text() != '' and dlg.accepted):
+			if (mainAppWindow.db.createNewExecutor(dlgUi.lineEdit.text())):
 				self.updateUsers()
 				QMessageBox.information(self, 'Created', 'User successfuly created!')
 			else:
 				QMessageBox.warning(self, 'Failed', 'Failed to create user.')
-
 
 	def initWidget(self):
 		self.widgetUi = companies_contracts.Ui_Form()
@@ -276,6 +290,8 @@ class NTasksWindow(QMainWindow):
 		self.ui = main_window_new.Ui_MainWindow()
 		self.initUi()
 		self.initWidget()
+
+		commonTasks.tasksUpdated.connect(self.updateView)
 
 	def initUi(self):
 		self.ui.setupUi(self)
@@ -315,7 +331,6 @@ class NTasksWindow(QMainWindow):
 		while self.table.next():
 			self.addTask(self.table.record())
 
-
 	def hideTasks(self):
 		"""hide all tasks"""
 		for t_id in self.tasks:
@@ -325,7 +340,7 @@ class NTasksWindow(QMainWindow):
 
 		t_id = record.value('task_id').toInt()[0]
 		t_name = record.value('Task name').toString()
-		t_status = record.value('Status').toString()+' ('+record.value('executor_name').toString()+')'
+		t_status = record.value('Status').toString() + ' (' + record.value('executor_name').toString() + ')'
 		t_status_id = record.value('status_id').toInt()[0]
 		t_has_next = t_status_id < 2 and (t_status_id > 0 or record.value('prev_id').toInt()[0] == 0)
 
@@ -340,11 +355,30 @@ class NTasksWindow(QMainWindow):
 			task.changeClicked.connect(self.changeTaskExecutor)
 
 	def procceedTaskStatus(self, t_id):
-		mainAppWindow.db.proceedTaskStatus(t_id)
-		self.updateView()
-	pass
+		commonTasks.procceedTaskStatus(t_id)
 
 	def changeTaskExecutor(self, t_id):
+		commonTasks.changeTaskExecutor(t_id, self)
+
+	def createNewTask(self):
+		"""Create new task"""
+		commonTasks.createNewTask(self.process_id, self)
+
+
+class NCommonTasks(QObject):
+	tasksUpdated = pyqtSignal()
+	executorsUpdated = pyqtSignal()
+
+	def updateTasks(self):
+		self.tasksUpdated.emit()
+
+	def procceedTaskStatus(self, t_id):
+		mainAppWindow.db.proceedTaskStatus(t_id)
+		self.updateTasks()
+
+	pass
+
+	def changeTaskExecutor(self, t_id, caller):
 		dlg = QDialog()
 		selectDlgUi = select_dlg.Ui_Dialog()
 		selectDlgUi.setupUi(dlg)
@@ -360,13 +394,12 @@ class NTasksWindow(QMainWindow):
 		dlg.exec_()
 		user_id = user_ids[selectDlgUi.comboBox.currentIndex()]
 		if mainAppWindow.db.changeExecutor(t_id, user_id):
-			QMessageBox.information(self, 'Success', 'Responsible person successfully changed!')
-			self.updateView()
+			QMessageBox.information(caller, 'Success', 'Responsible person successfully changed!')
+			self.updateTasks()
 		else:
-			QMessageBox.warning(self, 'Failed', 'Failed to change responsible')
+			QMessageBox.warning(caller, 'Failed', 'Failed to change responsible')
 
-
-	def createNewTask(self):
+	def createNewTask(self, process_id, caller):
 		"""Create new task"""
 		dlg = QDialog()
 		dlgUi = new_task_dlg.Ui_Dialog()
@@ -381,15 +414,13 @@ class NTasksWindow(QMainWindow):
 		dlg.exec_()
 		user_id = user_ids[dlgUi.comboBox.currentIndex()]
 
-		if(dlgUi.lineEdit.text()!='' and dlg.accepted):
-			if(mainAppWindow.db.createNewTask(self.process_id,
-									 dlgUi.lineEdit.text(),
-									user_id)):
-				QMessageBox.information(self, 'Created', 'Task successfuly created!')
+		if (dlgUi.lineEdit.text() != '' and dlg.accepted):
+			if (mainAppWindow.db.createNewTask(process_id, dlgUi.lineEdit.text(), user_id)):
+				QMessageBox.information(caller, 'Created', 'Task successfuly created!')
 			else:
-				QMessageBox.warning(self, 'Failed', 'Failed to create task.')
+				QMessageBox.warning(caller, 'Failed', 'Failed to create task.')
 
-		self.updateView()
+		self.updateTasks()
 
 
 class NReportWindow(QMainWindow):
@@ -416,9 +447,8 @@ class NReportWindow(QMainWindow):
 		# self.ui.textEdit.print_(QPrinter())
 
 	def saveDocument(self):
-		print(self.ui.textEdit.toHtml())
 		writer = QTextDocumentWriter()
-		fileName = QFileDialog.getOpenFileName(self, "Save report", "", "Html Files (*.html )");
+		fileName = QFileDialog().getOpenFileName(self, "Save report", "", "Html Files (*.html )");
 		writer.setFileName(fileName)
 		writer.setFormat('html')
 

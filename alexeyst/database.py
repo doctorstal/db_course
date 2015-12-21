@@ -74,7 +74,7 @@ class ProductsDB(QObject):
 
 	def getTasksQuery(self, p_id):
 		query = QSqlQuery()
-		query.prepare("""SELECT * FROM tasks_list WHERE process_id=:p_id;""")
+		query.prepare("""SELECT * FROM tasks_list WHERE process_id=:p_id ORDER BY task_id;""")
 		query.bindValue(':p_id', p_id)
 		query.exec_()
 		if (query.lastError().isValid()):
@@ -90,9 +90,10 @@ class ProductsDB(QObject):
 		query.exec_()
 		if (query.lastError().isValid()):
 			print('proceed task fail: ', query.lastError().text(), self.db.lastError().text())
+			return False
 		else:
 			print('Success query')
-		return query
+			return True
 
 	def changeExecutor(self, t_id, e_id):
 		query = QSqlQuery(self.db)
