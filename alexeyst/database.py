@@ -96,7 +96,7 @@ class ProductsDB(QObject):
 
 	def changeExecutor(self, t_id, e_id):
 		query = QSqlQuery(self.db)
-		query.prepare(""""CALL change_executor(:e_id, :t_id);""")
+		query.prepare("""CALL change_executor(:e_id, :t_id);""")
 		query.bindValue(':t_id', t_id)
 		query.bindValue(':e_id', e_id)
 		query.exec_()
