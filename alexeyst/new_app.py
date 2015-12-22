@@ -4,17 +4,9 @@ from PyQt4.QtCore import pyqtSignal, QObject
 from PyQt4.QtGui import QApplication, QMainWindow, QVBoxLayout, QWidget, QDialog, \
 	QMessageBox, QPrinter, QPrintDialog, QTextDocumentWriter, QFileDialog
 
-import business_processes
-import companies_contracts
-import enter_text_dlg
-import main_window_new
-import new_task_dlg
+from templates import business_processes, companies_contracts, enter_text_dlg, main_window_new, new_task_dlg
 import report_generator
-import report_window
-import select_dlg
-import startscreen
-import tasks
-import users
+from templates import report_window, select_dlg, startscreen, tasks, users
 from database import ProductsDB
 from subwidgets import NCompanyView, NProcessView, NTaskView, NExecutorView
 
@@ -102,9 +94,7 @@ class NCompaniesWindow(QMainWindow):
 		dlgUi.label.setText('Enter company name:')
 		dlg.setWindowTitle('Add new company')
 
-		dlg.exec_()
-
-		if dlgUi.lineEdit.text() != '' and dlg.accepted:
+		if dlg.exec_() == QDialog.Accepted and dlgUi.lineEdit.text() != '':
 			if mainAppWindow.db.createNewCompany(dlgUi.lineEdit.text()):
 				self.updateCompanies()
 				QMessageBox.information(self, 'Created', 'Company successfuly created!')
@@ -194,9 +184,7 @@ class NProcessesWindow(QMainWindow):
 		dlgUi.label.setText('Enter process name:')
 		dlg.setWindowTitle('Add new business process')
 
-		dlg.exec_()
-
-		if dlgUi.lineEdit.text() != '' and dlg.accepted:
+		if dlg.exec_() == QDialog.Accepted and dlgUi.lineEdit.text() != '':
 			if mainAppWindow.db.createNewProcess(self.contract_id, dlgUi.lineEdit.text()):
 				self.updateProcesses()
 				QMessageBox.information(self, 'Created', 'Process successfuly created!')
@@ -265,9 +253,7 @@ class NExecutorsWindow(QMainWindow):
 		dlg.setWindowTitle('Create new executor')
 		dlgUi.label.setText('Enter executors name:')
 
-		dlg.exec_()
-
-		if (dlgUi.lineEdit.text() != '' and dlg.accepted):
+		if (dlg.exec_() == QDialog.Accepted and dlgUi.lineEdit.text() != ''):
 			if (mainAppWindow.db.createNewExecutor(dlgUi.lineEdit.text())):
 				self.updateUsers()
 				QMessageBox.information(self, 'Created', 'User successfuly created!')
@@ -391,13 +377,14 @@ class NCommonTasks(QObject):
 
 		selectDlgUi.label.setText('Select employee:')
 
-		dlg.exec_()
-		user_id = user_ids[selectDlgUi.comboBox.currentIndex()]
-		if mainAppWindow.db.changeExecutor(t_id, user_id):
-			QMessageBox.information(caller, 'Success', 'Responsible person successfully changed!')
-			self.updateTasks()
-		else:
-			QMessageBox.warning(caller, 'Failed', 'Failed to change responsible')
+
+		if(dlg.exec_() == QDialog.Accepted):
+			user_id = user_ids[selectDlgUi.comboBox.currentIndex()]
+			if mainAppWindow.db.changeExecutor(t_id, user_id):
+				QMessageBox.information(caller, 'Success', 'Responsible person successfully changed!')
+				self.updateTasks()
+			else:
+				QMessageBox.warning(caller, 'Failed', 'Failed to change responsible')
 
 	def createNewTask(self, process_id, caller):
 		"""Create new task"""
@@ -411,10 +398,11 @@ class NCommonTasks(QObject):
 			dlgUi.comboBox.addItem(record.value('executor_name').toString())
 			user_ids.append(record.value('executor_id').toInt()[0])
 
-		dlg.exec_()
-		user_id = user_ids[dlgUi.comboBox.currentIndex()]
 
-		if (dlgUi.lineEdit.text() != '' and dlg.accepted):
+
+
+		if (dlg.exec_() == QDialog.Accepted and dlgUi.lineEdit.text() != ''):
+			user_id = user_ids[dlgUi.comboBox.currentIndex()]
 			if (mainAppWindow.db.createNewTask(process_id, dlgUi.lineEdit.text(), user_id)):
 				QMessageBox.information(caller, 'Created', 'Task successfuly created!')
 			else:
@@ -440,8 +428,7 @@ class NReportWindow(QMainWindow):
 		printer = QPrinter()
 		dialog = QPrintDialog(printer)
 		# printer.setOutputFileName("print.ps")
-		dialog.exec_()
-		if dialog.accepted():
+		if(dialog.exec_() == QDialog.Accepted):
 			self.ui.textEdit.print_(printer)
 
 		# self.ui.textEdit.print_(QPrinter())

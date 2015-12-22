@@ -1,14 +1,8 @@
 from PyQt4.QtCore import Qt, pyqtSignal
 from PyQt4.QtGui import QWidget, QGroupBox, QLabel, QVBoxLayout, QFrame, QSizePolicy, QMainWindow, QMessageBox, QDialog
 
-import edit_contract_text
-import enter_text_dlg
 import new_app
-import one_company_view
-import one_contract_view
-import one_process_view
-import one_task_view
-import one_user
+from templates import edit_contract_text, enter_text_dlg, one_company_view, one_contract_view, one_process_view, one_task_view, one_user
 
 
 class NContractView(QFrame):
