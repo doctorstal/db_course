@@ -74,7 +74,7 @@ class NCompaniesWindow(QMainWindow):
 			contract_id = record.value('contract_id').toInt()[0]
 			company.addContract(contract_id, record.value('Contract').toString())
 
-		# company.show()
+		company.show()
 
 	def getOrCreateCompany(self, name, c_id):
 		try:
